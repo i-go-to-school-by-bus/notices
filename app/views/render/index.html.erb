@@ -1,2 +1,24 @@
-<h1>hello world</h1>
-<p>:)</p>
+<% if @error %>
+	<p>an error occured :( 	<a href="mailto:daniel.tp@cock.li">send me an email</a></p>
+<% else %>
+	<p>last updated: <%= @lastupdated %></p>
+	<% (0..(DISTRICTS.length - 1)).each do |i| %>
+		<h2><%= DISTRICTS[i][0] %></h2>
+		<table>
+			<tr><td><b>Date</b></td><td><b>Title</b></td><td><b>Due date</b></td></tr>
+			<% @entries[i].each do |ent| %><tr>
+				<td><%= ent.date %></td>
+				<td><a href="<%= ent.source %>"><%= ent.title %></a></td>
+				<td>
+				<% if ent.duedate == nil %>
+					unknown
+				<% else %>
+					<%= ent.duedate %>
+				<% end %>
+				</td>
+			</tr><% end %>
+		</table>
+		<hr />
+	<% end %>
+	<p>something isn't right? <a href="mailto:daniel.tp@cock.li">send me an email!</a></p>
+<% end %>

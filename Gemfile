@@ -68,3 +68,8 @@ end
 
 # why do i need this? i do not know. all i know is that it stops db:create from exploding.
 gem "json"
+
+# curl!
+gem "curb"
+# html parsing!
+gem "nokogiri"

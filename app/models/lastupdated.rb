@@ -1,0 +1,2 @@
+class Lastupdated < ApplicationRecord
+end
