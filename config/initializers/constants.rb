@@ -24,7 +24,7 @@ DISTRICTS = [
 	["黃大仙區", "", :dummy, false],
 	["九龍灣區", "", :dummy, false],
 	["秀茂坪區", "", :dummy, false],
-	["將軍澳區", "", :dummy, false],
+	["將軍澳區", "https://hkscout-tko.org/notice.php#top", :update_tko, false],
 	["觀塘區", "", :dummy, false],
 	["鯉魚門區", "", :dummy, false],
 	["新界地域", "", :dummy, false],

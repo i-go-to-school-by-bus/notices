@@ -80,6 +80,24 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_tko(document, districtid)
+    document.css("div.divlink > div.form-group").each do |x|
+      n = Notice.new
+
+      n.date = "01-#{x.element_children[0].inner_text}"
+      n.title = x.element_children[1].inner_text
+      n.source = "https://hkscout-tko.org/notice/?nid=#{x.element_children[2].element_children[0]["data-id"]}"
+      if x.element_children[3].element_children[0]["class"] == "span_expired"
+        n.duedate = "01-01-1970"
+      else
+        n.duedate = x.element_children[3].element_children[0].inner_text.sub!("截止: ", "")
+      end
+      n.from = districtid
+
+      attempt_save n
+    end
+  end
+
   def dummy(unused1, unused2)
 
   end
