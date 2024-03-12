@@ -36,7 +36,12 @@ class RenderController < ApplicationController
         http.timeout = 10 # raise exception if request/response not handled within 10 seconds
       }
       if res.code == 200
-        document = Nokogiri::HTML.parse(res.body) do |cfg| cfg.noblanks end
+        if (DISTRICTS[from][3])
+          text = res.body.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
+        else
+          text = res.body
+        end
+        document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
 
         send(DISTRICTS[from][2], document, from)
 
@@ -63,7 +68,19 @@ class RenderController < ApplicationController
     end
   end
 
-  def dummy(url)
+  def update_smd(document, districtid)
+    document.css("div.entrytext > table > tbody > tr").each do |x|
+      n = Notice.new
+      n.title = x.element_children[1].inner_text
+      n.date = x.element_children[2].inner_text
+      n.source = x.element_children[3].element_children[0]["href"]
+      n.from = districtid
+
+      attempt_save n
+    end
+  end
+
+  def dummy(unused1, unused2)
 
   end
 
