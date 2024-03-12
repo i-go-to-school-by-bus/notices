@@ -50,7 +50,7 @@ class RenderController < ApplicationController
         end
         return 0
       else
-        puts "err: #{res.code}"
+        puts "err: #{DISTRICTS[from][1]} [#{res.code}]"
       end
     end
     return 1
