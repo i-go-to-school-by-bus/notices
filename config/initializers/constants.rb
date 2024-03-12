@@ -1,6 +1,6 @@
 DISTRICTS = [
 	["總會", "", :dummy, false],
-	["港島地域", "https://www.hkirscout.org.hk/tc/circular/Sections/index.html", :dummy, false],
+	["港島地域", "https://www.hkirscout.org.hk/tc/circular/Sections/index.html", :update_hkir, false],
 	["港島北區", "", :dummy, false],
 	["維多利亞城區", "", :dummy, false],
 	["港島西區", "", :dummy, false],
