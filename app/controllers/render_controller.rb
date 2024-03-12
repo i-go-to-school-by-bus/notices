@@ -115,6 +115,8 @@ class RenderController < ApplicationController
     n.source = "https://piped.garudalinux.org/watch?v=J-jrqxT5kKE"
     n.date = "1970-1-1"
     n.duedate = "1970-1-1"
-    n.save
+    if Notice.where(from: n.from)[0] == nil
+      n.save
+    end
   end
 end
