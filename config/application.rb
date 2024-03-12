@@ -24,15 +24,15 @@ module Notices
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.after_initialize do
-      if Lastupdated.first == nil
-        l = Lastupdated.new
-      else
-        l = Lastupdated.first
-      end
-      l.lastupdated = "1970-1-1"
-      l.save
-    end
+#    config.after_initialize do
+#      if Lastupdated.first == nil
+#        l = Lastupdated.new
+#      else
+#        l = Lastupdated.first
+#      end
+#      l.lastupdated = "1970-1-1"
+#      l.save
+#    end
   end
 end
 
