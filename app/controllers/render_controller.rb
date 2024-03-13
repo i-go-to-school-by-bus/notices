@@ -99,6 +99,21 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_kr(document, districtid)
+  	document.css("tbody")[0].element_children.each do |x|
+      n = Notice.new
+	  	n.date = x.element_children[0].inner_text
+	  	n.title = x.element_children[1].inner_text
+	  	n.source = x.element_children[5].element_children[0]["href"]
+	  	n.duedate = x.element_children[2].inner_text
+      n.from = districtid
+	  	if n.duedate == ""
+	  		n.duedate = nil
+	  	end
+      attempt_save n
+    end
+  end
+
   def update_klc(document, districtid)
     document.css("div.newsid > div").each do |x|
       n = Notice.new

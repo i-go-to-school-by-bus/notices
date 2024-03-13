@@ -8,7 +8,7 @@ DISTRICTS = [
 	["筲箕灣區", "https://www.skwscout.org.hk/category/notice/", :update_skw, false],
 	["柴灣區", "https://chaiwanscout.org.hk/v3/", :update_cwd, false],
 	["港島南區", "", :dummy, false],
-	["九龍地域", "", :dummy, false],
+	["九龍地域", "https://krscout.org/%e9%80%9a%e5%91%8a%e5%8f%8a%e8%a1%a8%e6%a0%bc/", :update_kr, false],
 	["紅磡區", "", :dummy, false],
 	["何文田區", "", :dummy, false],
 	["九龍城區", "https://www.klcscout.hk/cportal/getnews.php", :update_klc, false],
