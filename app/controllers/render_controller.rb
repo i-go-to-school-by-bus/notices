@@ -74,6 +74,17 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_skw(document, districtid)
+    document.css(".posts-wrapper")[0].element_children.each do |x|
+      n = Notice.new
+      n.date = x.css("time")[0]["content"]
+      n.title = x.css(".blog-entry-title.entry-title")[0].inner_text
+      n.source = x.css("a")[0]["href"]
+      n.from = districtid
+      attempt_save n
+    end
+  end
+
   def update_cwd(document, districtid)
     document.css(".col.post-item").each do |x|
       n = Notice.new
