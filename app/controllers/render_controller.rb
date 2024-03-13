@@ -140,6 +140,20 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_ekr(document, districtid)
+    document.css(".w3eden").each do |x|
+      x = x.css(".media")[0]
+      n = Notice.new
+
+      n.date = x.css(".p-0").inner_text.sub("上載日期:", "").strip
+      n.title = x.css(".media-heading")[0].inner_text
+      n.source = "https://hkscout-ekr.org/#{x.css(".wpdm-download-link")[0]["href"]}"
+      n.from = districtid
+
+      attempt_save n
+    end
+  end
+
   def update_skd(document, districtid)
     add_dummy("No notice section present at source", districtid)
   end
