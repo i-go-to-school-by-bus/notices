@@ -165,4 +165,8 @@ class RenderController < ApplicationController
       n.save
     end
   end
+
+  def smd_broken(unused, districtid)
+    add_dummy "this is currently unavailable because of cloudflare stuff - will fix later", districtid
+  end
 end
