@@ -81,6 +81,22 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_klg(document, districtid)
+    document.css("tr.oddrow, tr.evenrow").each do |x|
+      n = Notice.new
+puts x
+      n.date = x.element_children[0].inner_text
+      n.title = x.element_children[3].element_children[0].inner_text
+      n.source = x.element_children[3].element_children[0]["href"]
+      n.duedate = x.element_children[2].inner_text
+      n.from = districtid
+      if n.duedate == ""
+        n.duedate = nil
+      end
+      attempt_save n
+    end
+  end
+
   def update_smd(document, districtid)
     document.css("div.entrytext > table > tbody > tr").each do |x|
       n = Notice.new
