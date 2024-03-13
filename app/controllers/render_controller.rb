@@ -84,7 +84,6 @@ class RenderController < ApplicationController
   def update_klg(document, districtid)
     document.css("tr.oddrow, tr.evenrow").each do |x|
       n = Notice.new
-puts x
       n.date = x.element_children[0].inner_text
       n.title = x.element_children[3].element_children[0].inner_text
       n.source = x.element_children[3].element_children[0]["href"]
