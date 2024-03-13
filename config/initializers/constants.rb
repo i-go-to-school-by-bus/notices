@@ -6,7 +6,7 @@ DISTRICTS = [
 	["港島西區", "", :dummy, false],
 	["灣仔區", "", :dummy, false],
 	["筲箕灣區", "", :dummy, false],
-	["柴灣區", "", :dummy, false],
+	["柴灣區", "https://chaiwanscout.org.hk/v3/", :update_cwd, false],
 	["港島南區", "", :dummy, false],
 	["九龍地域", "", :dummy, false],
 	["紅磡區", "", :dummy, false],

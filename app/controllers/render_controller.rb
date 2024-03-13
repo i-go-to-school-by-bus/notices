@@ -74,6 +74,20 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_cwd(document, districtid)
+    document.css(".col.post-item").each do |x|
+      n = Notice.new
+      x = x.element_children[0].element_children[0]
+
+      n.title = x.css(".post-title.is-large")[0].inner_text
+      n.date = x.css(".post-meta")[0].inner_text
+      n.source = x["href"]
+      n.from = districtid
+
+      attempt_save n
+    end
+  end
+
   def update_klc(document, districtid)
     document.css("div.newsid > div").each do |x|
       n = Notice.new
