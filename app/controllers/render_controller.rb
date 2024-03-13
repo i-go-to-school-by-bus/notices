@@ -212,6 +212,17 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_tps(document, districtid)
+    document.css(".tblContent").each do |x|
+      n = Notice.new
+      n.date = x.element_children[0].inner_text
+      n.title = x.element_children[3].inner_text
+      n.source = x.css("a")[0]["href"]
+      n.from = districtid
+      attempt_save n
+    end
+  end
+
   def dummy(unused1, unused2)
   end
 

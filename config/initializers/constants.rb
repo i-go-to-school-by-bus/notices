@@ -43,7 +43,7 @@ DISTRICTS = [
 	["雙魚區", "", :dummy, false],
 	["璧峰區", "", :dummy, false],
 	["大埔北區", "", :dummy, false],
-	["大埔南區", "", :dummy, false],
+	["大埔南區", "http://www.tps.org.hk/download/notice", :update_tps, false],
 	["沙田西區", "", :dummy, false],
 	["沙田南區", "", :dummy, false],
 	["沙田東區", "", :dummy, false],
