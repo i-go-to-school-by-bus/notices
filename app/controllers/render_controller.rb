@@ -253,6 +253,20 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_twd(document, districtid)
+    document.css("#group_notices table > tbody")[0].element_children.each do |x|
+      n = Notice.new
+      n.date = Date.parse(x.element_children[0].inner_text)
+      n.title = x.element_children[2].inner_text
+      n.source = x.element_children[4].element_children[0]["href"]
+      n.from = districtid
+      if x.element_children[5].inner_text == "已經結束"
+        n.duedate = "1970-01-01"
+      end
+      attempt_save n
+    end
+  end
+
   def update_tps(document, districtid)
     document.css(".tblContent").each do |x|
       n = Notice.new

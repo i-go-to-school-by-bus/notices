@@ -35,7 +35,7 @@ DISTRICTS = [
 	["屯門東區", "https://www.tmescout.org.hk/file/memo.htm", :update_tme, true],
 	["北葵涌區", "", :dummy, false],
 	["南葵涌區", "", :dummy, false],
-	["荃灣區", "", :dummy, false],
+	["荃灣區", "https://www.twdscout.org.hk", :update_twd, false],
 	["青衣區", "", :dummy, false],
 	["離島區", "", :dummy, false],
 	["大嶼山區", "", :dummy, false],
