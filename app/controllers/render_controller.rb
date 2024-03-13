@@ -159,6 +159,18 @@ class RenderController < ApplicationController
 
   end
 
+  def update_tme(document, districtid)
+    document.css("div.feature")[0].element_children[0].element_children.drop(1).each do |x|
+      n = Notice.new
+      n.date = x.element_children[0].inner_text.sub!("年", "-").sub!("月", "-").sub!("日", "").strip
+      n.title = x.element_children[1].inner_text.strip.gsub("\r\n", "")
+      n.source = "https://www.tmescout.org.hk/#{x.element_children[3].css("a")[0]["href"]}"
+      n.from = districtid
+
+      attempt_save n
+    end
+  end
+
   def dummy(unused1, unused2)
   end
 

@@ -32,7 +32,7 @@ DISTRICTS = [
 	["元朗西區", "https://www.ylw-scout.org.hk/category/%E9%80%9A%E5%91%8A/", :update_ylw, false],
 	["十八鄉區", "", :dummy, false],
 	["屯門西區", "", :dummy, false],
-	["屯門東區", "", :dummy, false],
+	["屯門東區", "https://www.tmescout.org.hk/file/memo.htm", :update_tme, true],
 	["北葵涌區", "", :dummy, false],
 	["南葵涌區", "", :dummy, false],
 	["荃灣區", "", :dummy, false],
