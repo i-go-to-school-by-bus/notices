@@ -140,6 +140,10 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_skd(document, districtid)
+    add_dummy("No notice section present at source", districtid)
+  end
+
   def update_tko(document, districtid)
     document.css("div.divlink > div.form-group").each do |x|
       n = Notice.new

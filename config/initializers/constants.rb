@@ -19,7 +19,7 @@ DISTRICTS = [
 	["深水埗西區", "", :dummy, false],
 	["油尖區", "", :dummy, false],
 	["東九龍地域", "", :dummy, false],
-	["西貢區", "", :dummy, false],
+	["西貢區", "http://www.hkscout-skd.org", :update_skd, false],
 	["慈雲山區", "", :dummy, false],
 	["黃大仙區", "", :dummy, false],
 	["九龍灣區", "", :dummy, false],
