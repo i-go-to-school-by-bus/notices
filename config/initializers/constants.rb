@@ -11,7 +11,7 @@ DISTRICTS = [
 	["九龍地域", "", :dummy, false],
 	["紅磡區", "", :dummy, false],
 	["何文田區", "", :dummy, false],
-	["九龍城區", "", :dummy, false],
+	["九龍城區", "https://www.klcscout.hk/cportal/getnews.php", :update_klc, false],
 	["九龍塘區", "", :dummy, false],
 	["旺角區", "", :dummy, false],
 	["深旺區", "https://group.scout.org.hk/smd/", :update_smd, false],

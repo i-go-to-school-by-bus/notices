@@ -39,7 +39,7 @@ class RenderController < ApplicationController
         if (DISTRICTS[from][3])
           text = res.body.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
         else
-          text = res.body
+          text = res.body.force_encoding('UTF-8')
         end
         document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
 
@@ -65,6 +65,19 @@ class RenderController < ApplicationController
       n.source = i.element_children[2].css("a")[0][:href]
 
       attempt_save(n)
+    end
+  end
+
+  def update_klc(document, districtid)
+    document.css("div.newsid > div").each do |x|
+      n = Notice.new
+
+      n.date = x.element_children[0].inner_text
+      n.title = x.element_children[2].inner_text
+      n.source = x.element_children[4].element_children[0]["href"]
+      n.from = districtid
+
+      attempt_save n
     end
   end
 
