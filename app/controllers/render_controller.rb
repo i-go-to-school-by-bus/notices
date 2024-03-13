@@ -51,6 +51,9 @@ class RenderController < ApplicationController
         return 0
       else
         puts "err: #{DISTRICTS[from][1]} [#{res.code}]"
+        puts "response: "
+        puts res.body
+        puts "end response"
       end
     end
     return 1
