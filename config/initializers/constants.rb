@@ -28,7 +28,7 @@ DISTRICTS = [
 	["觀塘區", "", :dummy, false],
 	["鯉魚門區", "", :dummy, false],
 	["新界地域", "", :dummy, false],
-	["元朗東區", "", :dummy, false],
+	["元朗東區", "https://yle.scout-ntr.org.hk/allNotice.php", :update_yle, false],
 	["元朗西區", "https://www.ylw-scout.org.hk/category/%E9%80%9A%E5%91%8A/", :update_ylw, false],
 	["十八鄉區", "", :dummy, false],
 	["屯門西區", "", :dummy, false],

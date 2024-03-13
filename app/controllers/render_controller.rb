@@ -217,6 +217,17 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_yle(document, districtid)
+    document.css("tr").drop(1).each do |x|
+      n = Notice.new
+      n.date = x.element_children[1].inner_text
+      n.title = x.element_children[0].inner_text
+      n.source = "https://yle.scout-ntr.org.hk/#{x.element_children[2].element_children[0].element_children[0]["href"].sub("file\\", "file/")}"
+      n.from = districtid
+      attempt_save n
+    end
+  end
+
   def update_ylw(document, districtid)
     document.css("article.d-md-flex.mg-posts-sec-post.align-items-center > .mg-sec-top-post.py-3.col").each do |x|
       n = Notice.new
