@@ -111,8 +111,20 @@ class RenderController < ApplicationController
     end
   end
 
-  def dummy(unused1, unused2)
+  def update_ylw(document, districtid)
+    document.css("article.d-md-flex.mg-posts-sec-post.align-items-center > .mg-sec-top-post.py-3.col").each do |x|
+      n = Notice.new
 
+      n.date = x.css(".mg-blog-date > a")[0].inner_text.sub!(" 年 ", "-").sub!(" 月 ", "-").sub!("日", "").strip
+      n.title = x.css("h4")[0].element_children[0].inner_text
+      n.source = x.css("h4")[0].element_children[0]["href"]
+      n.from = districtid
+      attempt_save n
+    end
+
+  end
+
+  def dummy(unused1, unused2)
   end
 
   def attempt_save(n)
