@@ -21,7 +21,7 @@ DISTRICTS = [
 	["東九龍地域", "https://hkscout-ekr.org/", :update_ekr, false],
 	["西貢區", "http://www.hkscout-skd.org", :update_skd, false],
 	["慈雲山區", "", :dummy, false],
-	["黃大仙區", "", :dummy, false],
+	["黃大仙區", "http://hkscout-wts.org/?page_id=355", :update_wts, false],
 	["九龍灣區", "", :dummy, false],
 	["秀茂坪區", "", :dummy, false],
 	["將軍澳區", "https://hkscout-tko.org/notice.php#top", :update_tko, false],

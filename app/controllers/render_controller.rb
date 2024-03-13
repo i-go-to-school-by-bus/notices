@@ -165,6 +165,21 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_wts(document, districtid)
+    document.css("tbody > tr").each do |x|
+      n = Notice.new
+      n.date = x.element_children[0].inner_text.sub("年", "-").sub("月", "-").sub("日", "").sub(" ", "")
+      n.title = x.element_children[1].inner_text
+      n.source = x.element_children[5].element_children[0]["href"]
+      n.duedate = x.element_children[2].inner_text.sub("年", "-").sub("月", "-").sub("日", "").sub(" ", "")
+      n.from = districtid
+      if n.duedate == "--"
+        n.duedate = nil
+      end
+      attempt_save n
+    end
+  end
+
   def update_skd(document, districtid)
     add_dummy("No notice section present at source", districtid)
   end
