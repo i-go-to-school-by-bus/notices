@@ -45,7 +45,7 @@ class RenderController < ApplicationController
 
         send(DISTRICTS[from][2], document, from)
 
-        if Notice.where(from: from) == nil
+        if Notice.where(from: from).length == 0
           add_dummy("no notices from this source from the past six months", from)
         end
         return 0
@@ -114,6 +114,18 @@ class RenderController < ApplicationController
       end
       attempt_save n
     end
+  end
+
+  def update_mkd(document, districtid)
+    document.css("#recent-posts-2 > ul > li").each do |x|
+      n = Notice.new
+	  	n.date = x.element_children[1].inner_text.sub!(" 年 ", "-").sub!(" 月 ", "-").sub!(" 日", "").strip
+	  	n.title = x.element_children[0].inner_text
+	  	n.source = x.element_children[0]["href"]
+      n.from = districtid
+
+      attempt_save n
+	  end
   end
 
   def update_smd(document, districtid)
