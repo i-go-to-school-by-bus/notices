@@ -320,7 +320,7 @@ class RenderController < ApplicationController
 
   def phantom_get(from)
     filename = "/tmp/SCRIPT.js"
-	  File.write(filename, "var system=require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){console.log(page.content);phantom.exit();});")
+	  File.write(filename, "var system = require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){window.setTimeout(function(){console.log(page.content);phantom.exit();}, 3000);});")
     text = Phantomjs.run(filename)
 puts text
     if (DISTRICTS[from][3])
