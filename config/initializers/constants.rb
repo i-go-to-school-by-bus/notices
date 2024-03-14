@@ -13,7 +13,7 @@ DISTRICTS = [
 	["何文田區", "", :dummy, false, false],
 	["九龍城區", "https://www.klcscout.hk/cportal/getnews.php", :update_klc, false, false],
 	["九龍塘區", "https://www.scout-kowloontong.org/index.php#front", :update_klg, true, false],
-	["旺角區", "https://group.scout.org.hk/mkd/", :update_mkd, false, false],
+	["旺角區", "https://group.scout.org.hk/mkd/", :update_mkd, false, true],
 	["深旺區", "https://group.scout.org.hk/smd/", :update_smd, false, true],
 	["深水埗東區", "", :dummy, false, false],
 	["深水埗西區", "", :dummy, false, false],

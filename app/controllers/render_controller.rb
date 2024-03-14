@@ -297,8 +297,6 @@ class RenderController < ApplicationController
   end
 
   def curl_get(from)
-    puts "curl_get gets #{from}"
-
     res = Curl.get(DISTRICTS[from][1]) {|http|
       http.timeout = 10 # raise exception if request/response not handled within 10 seconds
     }
@@ -321,10 +319,10 @@ class RenderController < ApplicationController
   end
 
   def phantom_get(from)
-    puts "phantom_get gets #{from}"
     filename = "/tmp/SCRIPT.js"
 	  File.write(filename, "var system=require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){console.log(page.content);phantom.exit();});")
     text = Phantomjs.run(filename)
+puts text
     if (DISTRICTS[from][3])
       return text.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
     else
