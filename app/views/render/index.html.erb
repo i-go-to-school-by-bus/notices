@@ -20,6 +20,16 @@
 			<td class="others-field">
 				<% if ent.extralinks == nil%>
 					<div class="centered">---</div>
+				<% else %>
+					<% @list = ent.extralinks.split("\n") %>
+					<% @listnewline = false %>
+					<% puts @list %>
+					<% (0..(@list.length/2)).each do |i| %>
+						<% if @listnewline %><br /><% end %>
+						<% @listnewline = true %>
+						<a href="<%= @list[2*i+1] %>"><%= @list[2*i] %></a>
+
+					<% end %>
 				<% end %>
 			</td>
 		</tr><% end %></tbody>

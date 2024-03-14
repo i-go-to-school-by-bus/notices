@@ -223,6 +223,63 @@ class RenderController < ApplicationController
 
   end
 
+  def update_tmw(document, districtid)
+    p = document.css("tr")
+    # ignore the last three entries because they are forms and not notices
+    p.slice(0..(p.length-4)).each do |x|
+      n = Notice.new
+      n.date = x.element_children[0].inner_text
+      n.title = ""
+      n.extralinks = ""
+      n.from = districtid
+      tmp = x.element_children[1].element_children
+      i = 0
+      (0..(tmp.length - 1)).each do |i0|
+        i = i0
+        if tmp[i].name == "br"
+          break
+        end
+        n.title += tmp[i].inner_text
+      end
+      n.title = n.title.strip.gsub("\n", "")
+      if x.css("a")[1] == nil
+        n.source = "https://tmw.scout-ntr.org.hk/#{x.css("a")[0]["href"]}"
+      else
+        n.source = "https://tmw.scout-ntr.org.hk/#{x.css("a")[1]["href"]}"
+      end
+      #the link with the first source should be at i-1 now
+      this_link = ""
+      this_title = ""
+      reading = false
+      ((i+1)..(tmp.length-1)).each do |j|
+        if tmp[j].name == "br" && this_link != "" && this_title != ""
+          this_link = this_link.gsub("\r", "\n").gsub("\n", "").strip
+          this_title = this_title.gsub("\r", "\n").gsub("\n", "").strip
+          n.extralinks += "#{this_title}\n#{this_link}\n"
+          this_link = ""
+          this_title = ""
+          reading = false
+          next
+        end
+        if tmp[j].name == "a" && this_link == ""
+          if reading
+            this_link = "https://tmw.scout-ntr.org.hk/#{tmp[j]["href"]}"
+          else
+            # why does the pointing fingers have a link????!?!?!?!?!
+            reading = true
+          end
+        end
+        this_title += tmp[j].inner_text
+      end
+      if n.extralinks == ""
+        n.extralinks = nil
+      end
+p x.element_children[0].inner_text
+p n.date
+      attempt_save n
+    end
+  end
+
   def update_tme(document, districtid)
     document.css("div.feature")[0].element_children[0].element_children.drop(1).each do |x|
       n = Notice.new
