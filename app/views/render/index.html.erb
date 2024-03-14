@@ -1,28 +1,29 @@
-<% if @error %>
-	<p>an error occured :( 	<a href="mailto:daniel.tp@cock.li">send me an email</a></p>
-<% else %>
-	<p>last updated: <%= @lastupdated %></p>
-	<% (0..(DISTRICTS.length - 1)).each do |i| %>
-		<h2><%= DISTRICTS[i][0] %></h2>
-		<table>
-			<tr><td><b>Date</b></td><td><b>Title</b></td><td><b>Due date</b></td></tr>
-			<% @entries[i].each do |ent| %><tr>
-				<td><%= ent.date %></td>
-				<td><a href="<%= ent.source %>"><%= ent.title %></a></td>
-				<td>
-				<% if ent.duedate == nil %>
-					unknown
+<p>last updated: <%= @lastupdated %></p>
+<% (0..(DISTRICTS.length - 1)).each do |i| %>
+	<h2><%= DISTRICTS[i][0] %></h2>
+	<table>
+		<thead><tr><th>Date</th><th>Title</th><th>Due date</th><th>Other links</th></tr></thead>
+		<tbody><% @entries[i].each do |ent| %><tr>
+			<td class="date-field"><%= ent.date %></td>
+			<td class="main-field"><a href="<%= ent.source %>"><%= ent.title %></a></td>
+			<td class="date-field">
+			<% if ent.duedate == nil %>
+				unknown
+			<% else %>
+				<% if ent.duedate == Date.parse("1970-01-01") %>
+					expired
 				<% else %>
-					<% if ent.duedate == Date.parse("1970-01-01") %>
-						expired
-					<% else %>
-						<%= ent.duedate %>
-					<% end %>
+					<%= ent.duedate %>
 				<% end %>
-				</td>
-			</tr><% end %>
-		</table>
-		<hr />
-	<% end %>
-	<p>something isn't right? <a href="mailto:daniel.tp@cock.li">send me an email!</a></p>
+			<% end %>
+			</td>
+			<td class="others-field">
+				<% if ent.extralinks == nil%>
+					<div class="centered">---</div>
+				<% end %>
+			</td>
+		</tr><% end %></tbody>
+	</table>
+	<hr />
 <% end %>
+<p>something isn't right? <a href="mailto:daniel.tp@cock.li">send me an email!</a></p>

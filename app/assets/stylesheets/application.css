@@ -13,3 +13,43 @@
  *= require_tree .
  *= require_self
  */
+
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+	width: 960px;
+}
+
+table {
+	width: 100%
+}
+
+table, th, td {
+	border: 1px solid white;
+}
+
+.date-field {
+	text-align: center;
+	width: 100px;
+}
+
+.main-field {
+	width: auto;
+}
+
+.others-field {
+	width: 128px;
+}
+
+.centered {
+	text-align: center;
+}
