@@ -320,9 +320,28 @@ class RenderController < ApplicationController
 
   def phantom_get(from)
     filename = "/tmp/SCRIPT.js"
-	  File.write(filename, "var system = require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){window.setTimeout(function(){console.log(page.content);phantom.exit();}, 3000);});")
+    jscode =
+"     'use strict';
+      var page = require('webpage').create(),
+          system = require('system'),
+          address, delay;
+      address = '#{DISTRICTS[from][1]}';
+      delay = 3000;
+      page.open(address, function (status) {
+        if (status !== 'success') {
+          console.log('Unable to load the address!');
+          phantom.exit(1);
+        } else {
+          window.setTimeout(function () {
+            var content = page.content;
+            console.log(content);
+            phantom.exit();
+          }, delay);
+        }
+      });"
+    File.write(filename, jscode)
     text = Phantomjs.run(filename)
-puts text
+    puts text
     if (DISTRICTS[from][3])
       return text.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
     else
