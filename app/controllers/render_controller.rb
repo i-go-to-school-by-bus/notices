@@ -326,7 +326,7 @@ class RenderController < ApplicationController
           system = require('system'),
           address, delay;
       address = '#{DISTRICTS[from][1]}';
-      delay = 3000;
+      delay = 10000;
       page.open(address, function (status) {
         if (status !== 'success') {
           console.log('Unable to load the address!');
