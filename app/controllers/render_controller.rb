@@ -7,7 +7,6 @@ class RenderController < ApplicationController
       end
       DISTRICTS.each_with_index do |k, i|
         if update(i) != 0
-          puts "UPDATE RET 1"
           @error = true
         end
       end
@@ -22,7 +21,6 @@ class RenderController < ApplicationController
         @entries.append Notice.where(from: i)
       end
     end
-    p @entries
   end
 
   def update(from)
@@ -35,8 +33,10 @@ class RenderController < ApplicationController
       return 0
     end
     if (DISTRICTS[from][4])
+      puts ("phantom_getting #{from}")
       text = phantom_get(from)
     else
+      puts ("curl_getting #{from}")
       text = curl_get(from)
     end
     document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
@@ -297,6 +297,8 @@ class RenderController < ApplicationController
   end
 
   def curl_get(from)
+    puts "curl_get gets #{from}"
+
     res = Curl.get(DISTRICTS[from][1]) {|http|
       http.timeout = 10 # raise exception if request/response not handled within 10 seconds
     }
@@ -319,6 +321,7 @@ class RenderController < ApplicationController
   end
 
   def phantom_get(from)
+    puts "phantom_get gets #{from}"
     filename = "/tmp/SCRIPT.js"
 	  File.write(filename, "var system=require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){console.log(page.content);phantom.exit();});")
     text = Phantomjs.run(filename)
