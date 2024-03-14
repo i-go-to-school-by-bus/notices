@@ -73,3 +73,5 @@ gem "json"
 gem "curb"
 # html parsing!
 gem "nokogiri"
+# cloudflare is counterfeit and homosexual.
+gem "phantomjs"

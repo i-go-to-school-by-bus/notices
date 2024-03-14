@@ -26,40 +26,25 @@ class RenderController < ApplicationController
   end
 
   def update(from)
-    if DISTRICTS[from] != nil
-      if (DISTRICTS[from][1] == "")
-        # add a dummy entry
-        add_dummy("support for notices from this source not yet added", from)
-        return 0
-      end
-      res = Curl.get(DISTRICTS[from][1]) {|http|
-        http.timeout = 10 # raise exception if request/response not handled within 10 seconds
-      }
-      if res.code == 200
-        if (DISTRICTS[from][3])
-          text = res.body.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
-        else
-          text = res.body.force_encoding('UTF-8')
-        end
-        document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
-
-        send(DISTRICTS[from][2], document, from)
-
-        if Notice.where(from: from).length == 0
-          add_dummy("no notices from this source from the past six months", from)
-        end
-        return 0
-      else
-        puts "err: #{DISTRICTS[from][1]} [#{res.code}]"
-        puts "headers:"
-        puts res.head
-        puts "end headers"
-        puts "response: "
-        puts res.body
-        puts "end response"
-      end
+    if DISTRICTS[from] == nil
+      return 1
     end
-    return 1
+    if (DISTRICTS[from][1] == "")
+      # add a dummy entry
+      add_dummy("support for notices from this source not yet added", from)
+      return 0
+    end
+    if (DISTRICTS[from][4])
+      text = phantom_get(from)
+    else
+      text = curl_get(from)
+    end
+    document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
+    send(DISTRICTS[from][2], document, from)
+    if Notice.where(from: from).length == 0
+      add_dummy("no notices from this source from the past six months", from)
+    end
+    return 0
   end
 
   def update_hkir(document, districtid)
@@ -311,7 +296,36 @@ class RenderController < ApplicationController
     end
   end
 
-  def smd_broken(unused, districtid)
-    add_dummy "this is currently unavailable because of cloudflare stuff - will fix later", districtid
+  def curl_get(from)
+    res = Curl.get(DISTRICTS[from][1]) {|http|
+      http.timeout = 10 # raise exception if request/response not handled within 10 seconds
+    }
+    if res.code == 200
+      if (DISTRICTS[from][3])
+        return res.body.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
+      else
+        return res.body.force_encoding('UTF-8')
+      end
+    else
+      puts "err: #{DISTRICTS[from][1]} [#{res.code}]"
+      puts "headers:"
+      puts res.head
+      puts "end headers"
+      puts "response: "
+      puts res.body
+      puts "end response"
+      return nil
+    end
+  end
+
+  def phantom_get(from)
+    filename = "/tmp/SCRIPT.js"
+	  File.write(filename, "var system=require('system');var page=require('webpage').create();var url='#{DISTRICTS[from][1]}';page.open(url,function(){console.log(page.content);phantom.exit();});")
+    text = Phantomjs.run(filename)
+    if (DISTRICTS[from][3])
+      return text.force_encoding('BIG5').encode('UTF-8', invalid: :replace, undef: :replace, replace: "")
+    else
+      return text.force_encoding('UTF-8')
+    end
   end
 end
