@@ -11,23 +11,3 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_03_12_170703) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "lastupdateds", force: :cascade do |t|
-    t.date "lastupdated"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "notices", force: :cascade do |t|
-    t.integer "from"
-    t.string "title"
-    t.string "source"
-    t.date "date"
-    t.date "duedate"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-end
