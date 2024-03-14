@@ -274,8 +274,6 @@ class RenderController < ApplicationController
       if n.extralinks == ""
         n.extralinks = nil
       end
-p x.element_children[0].inner_text
-p n.date
       attempt_save n
     end
   end
