@@ -6,31 +6,27 @@ class RenderController < ApplicationController
         k.delete
       end
       DISTRICTS.each_with_index do |k, i|
-        if update(i) != 0
-          @error = true
-        end
+        update(i)
       end
       l = Lastupdated.first
       l.lastupdated = Date.today
       l.save
     end
-    if !@error
-      @lastupdated = Lastupdated.first.lastupdated
-      @entries = []
-      (0..(DISTRICTS.length - 1)).each do |i|
-        @entries.append Notice.where(from: i)
-      end
+    @lastupdated = Lastupdated.first.lastupdated
+    @entries = []
+    (0..(DISTRICTS.length - 1)).each do |i|
+      @entries.append Notice.where(from: i)
     end
   end
 
   def update(from)
     if DISTRICTS[from] == nil
-      return 1
+      return
     end
     if (DISTRICTS[from][1] == "")
       # add a dummy entry
       add_dummy("support for notices from this source not yet added", from)
-      return 0
+      return
     end
     if (DISTRICTS[from][4])
       puts ("phantom_getting #{from}")
@@ -39,12 +35,14 @@ class RenderController < ApplicationController
       puts ("curl_getting #{from}")
       text = curl_get(from)
     end
+    if !text
+      return
+    end
     document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
     send(DISTRICTS[from][2], document, from)
     if Notice.where(from: from).length == 0
       add_dummy("no notices from this source from the past six months", from)
     end
-    return 0
   end
 
   def update_hkir(document, districtid)
@@ -308,14 +306,18 @@ class RenderController < ApplicationController
       end
     else
       puts "err: #{DISTRICTS[from][1]} [#{res.code}]"
-      puts "headers:"
-      puts res.head
-      puts "end headers"
-      puts "response: "
-      puts res.body
-      puts "end response"
-      return nil
+      #puts "headers:"
+      #puts res.head
+      #puts "end headers"
+      #puts "response: "
+      #puts res.body
+      #puts "end response"
+      Notice.where(from: from).each do |x|
+        x.delete
+      end
+      add_dummy("attempt to update notices from this source encountered an error: #{res.code}", from)
     end
+    return nil
   end
 
   def phantom_get(from)
