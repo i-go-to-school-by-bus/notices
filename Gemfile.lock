@@ -262,7 +262,7 @@ DEPENDENCIES
   json
   nokogiri
   pg (~> 1.1)
-  phantomjs
+  phantomjs (= 2.1.1.0)
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.2)
   selenium-webdriver
