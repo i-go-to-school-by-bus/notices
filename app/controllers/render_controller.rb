@@ -1,7 +1,6 @@
 class RenderController < ApplicationController
   def index
-    @error = false
-    if Lastupdated.first.lastupdated < Date.today
+    if Lastupdated.first.lastupdated < DateTime.current.at_beginning_of_day
       Notice.where("date < ?", 6.months.ago).each do |k|
         k.delete
       end
@@ -9,13 +8,13 @@ class RenderController < ApplicationController
         update(i)
       end
       l = Lastupdated.first
-      l.lastupdated = Date.today
+      l.lastupdated = DateTime.current
       l.save
     end
     @lastupdated = Lastupdated.first.lastupdated
     @entries = []
     (0..(DISTRICTS.length - 1)).each do |i|
-      @entries.append Notice.where(from: i)
+      @entries.append Notice.where(from: i).order(date: :desc)
     end
   end
 
