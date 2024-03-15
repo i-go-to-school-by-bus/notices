@@ -2,7 +2,7 @@
 <% (0..(DISTRICTS.length - 1)).each do |i| %>
 	<h2><%= DISTRICTS[i][0] %></h2>
 	<table>
-		<thead><tr><th>Date</th><th>Title</th><th>Due date</th><th>Other links</th></tr></thead>
+		<thead><tr><th>Date</th><th>Title</th><th>Due date</th><th>Extra info</th></tr></thead>
 		<tbody><% @entries[i].each do |ent| %><tr>
 			<td class="date-field"><%= ent.date %></td>
 			<td class="main-field"><a href="<%= ent.source %>"><%= ent.title %></a></td>
@@ -10,7 +10,7 @@
 			<% if ent.duedate == nil %>
 				unknown
 			<% else %>
-				<% if ent.duedate == Date.parse("1970-01-01") %>
+				<% if ent.duedate < Date.current %>
 					expired
 				<% else %>
 					<%= ent.duedate %>
@@ -23,12 +23,14 @@
 				<% else %>
 					<% @list = ent.extralinks.split("\n") %>
 					<% @listnewline = false %>
-					<% puts @list %>
 					<% (0..(@list.length/2)).each do |i| %>
 						<% if @listnewline %><br /><% end %>
 						<% @listnewline = true %>
-						<a href="<%= @list[2*i+1] %>"><%= @list[2*i] %></a>
-
+						<% if @list[2*i+1] != "#" %>
+							<a href="<%= @list[2*i+1] %>"><%= @list[2*i] %></a>
+						<% else %>
+							<span><%= @list[2*i] %></span>
+						<% end %>
 					<% end %>
 				<% end %>
 			</td>

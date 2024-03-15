@@ -27,6 +27,8 @@ body {
     display: table-cell;
     vertical-align: middle;
 	width: 960px;
+	background-color: #202020;
+	color: white;
 }
 
 table {
@@ -34,7 +36,7 @@ table {
 }
 
 table, th, td {
-	border: 1px solid white;
+	border: 1px solid gray;
 }
 
 .date-field {
@@ -47,9 +49,14 @@ table, th, td {
 }
 
 .others-field {
-	width: 128px;
+	overflow-wrap: anywhere;
+	width: 160px;
 }
 
 .centered {
 	text-align: center;
+}
+
+a:link, a:visited {
+	color: #6969FF;
 }
