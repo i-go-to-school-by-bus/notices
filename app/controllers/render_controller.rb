@@ -85,6 +85,47 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_vic(document, districtid)
+    a = []
+	  document.css('.JNdkSc-SmKAyb.LkDMRd').each do |x|
+	  	if x.inner_text.strip != ""
+	  		a.append x
+	  	end
+	  end
+	  a.drop(1).each do |x|
+      n = Notice.new
+      n.from = districtid
+	  	x = x.element_children[0]
+	  	n.date = x.css("h3")[0].inner_text.strip
+	  	node = x.css("h3")[0].next
+	  	while node.inner_text.strip == ""
+	  		node = node.next
+	  	end
+	  	n.title = node.inner_text
+	  	n.source = nil
+	  	x.css("a").each do |link|
+	  		if link["href"][0] != '#'
+	  			n.source = link["href"]
+	  		end
+	  	end
+	  	duedatenode = node
+	  	while node.next != nil
+	  		node = node.next
+	  		if node.inner_text.strip != ""
+	  			duedatenode = node
+	  		end
+	  	end
+	  	if duedatenode.inner_text.index("年") == nil || duedatenode.inner_text.index("月") == nil || duedatenode.inner_text.index("日") == nil
+	  		n.duedate = nil
+	  	else
+        datestr = duedatenode.inner_text.sub("截止日期", "").sub(':', "").sub("年", "-").sub("月", "-").sub("日", "").strip
+	  		datestr = datestr.strip.slice(0..(datestr.index('(') - 1)).strip
+        n.duedate = datestr
+	  	end
+      attempt_save n
+	  end
+  end
+
   def hkw_urls
     arr = []
     arr.append "https://group.scout.org.hk/hkw/circular/circular#{Date.current.year}/"
