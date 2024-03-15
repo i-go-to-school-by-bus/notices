@@ -43,7 +43,7 @@ DISTRICTS = [
 	["新界東地域", "", :dummy, false, false, nil],
 	["雙魚區", "", :dummy, false, false, nil],
 	["璧峰區", "", :dummy, false, false, nil],
-	["大埔北區", "", :dummy, false, false, nil],
+	["大埔北區", "https://tpnscout.org/%e9%80%9a%e5%91%8a/", :update_tpn, false, false, nil],
 	["大埔南區", "http://www.tps.org.hk/download/notice", :update_tps, false, false, nil],
 	["沙田西區", "", :dummy, false, false, nil],
 	["沙田南區", "", :dummy, false, false, nil],

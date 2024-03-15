@@ -191,6 +191,7 @@ class RenderController < ApplicationController
       attempt_save n
     end
   end
+
   def update_kr(document, districtid)
   	document.css("tbody")[0].element_children.each do |x|
       n = Notice.new
@@ -445,6 +446,26 @@ class RenderController < ApplicationController
       n.title = x.element_children[1].element_children[0].element_children[0].inner_text
       n.source = "https://tyd.scout-ntr.org.hk/#{x.element_children[1].element_children[0].element_children[0]['href']}"
       n.duedate = x.element_children[3].element_children[0].inner_text
+      n.from = districtid
+      attempt_save n
+    end
+  end
+
+  def update_tpn(document, districtid)
+    a = []
+    lists = document.css(".elementor-tab-content.elementor-clearfix ul")
+    lists[0].element_children.each do |x|
+      a.append x
+    end
+    lists[1].element_children.each do |x|
+      a.append x
+    end
+    a.each do |x|
+      x = x.element_children[0]
+      n = Notice.new
+      n.date = "2112-09-03"
+      n.title = x.inner_text
+      n.source = x["href"]
       n.from = districtid
       attempt_save n
     end
