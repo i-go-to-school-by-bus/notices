@@ -19,26 +19,34 @@ class RenderController < ApplicationController
   end
 
   def update(from)
+    url_list = []
     if DISTRICTS[from] == nil
       return
     end
-    if (DISTRICTS[from][1] == "")
+    if (DISTRICTS[from][5] == nil && DISTRICTS[from][1] == "")
       # add a dummy entry
       add_dummy("support for notices from this source not yet added", from)
       return
     end
-    if (DISTRICTS[from][4])
-      puts ("phantom_getting #{from}")
-      text = phantom_get(from)
+    if DISTRICTS[from][5] != nil
+      url_list = send(DISTRICTS[from][5])
     else
-      puts ("curl_getting #{from}")
-      text = curl_get(from)
+      url_list.append DISTRICTS[from][1]
     end
-    if !text
-      return
+    url_list.each do |url|
+      if (DISTRICTS[from][4])
+        puts ("phantom_getting #{from}")
+        text = phantom_get(url, from)
+      else
+        puts ("curl_getting #{from}")
+        text = curl_get(url, from)
+      end
+      if !text
+        return
+      end
+      document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
+      send(DISTRICTS[from][2], document, from)
     end
-    document = Nokogiri::HTML.parse(text) do |cfg| cfg.noblanks end
-    send(DISTRICTS[from][2], document, from)
     if Notice.where(from: from).length == 0
       add_dummy("no notices from this source from the past six months", from)
     end
@@ -53,6 +61,24 @@ class RenderController < ApplicationController
       n.source = i.element_children[2].css("a")[0][:href]
 
       attempt_save(n)
+    end
+  end
+
+  def hkw_urls
+    arr = []
+    arr.append "https://group.scout.org.hk/hkw/circular/circular#{Date.current.year}/"
+    arr.append "https://group.scout.org.hk/hkw/circular/circular#{Date.current.last_year.year}/"
+    return arr
+  end
+
+  def update_hkw(document, districtid)
+    document.css("tbody > tr").drop(1).each do |x|
+      n = Notice.new
+      n.date = x.element_children[0].inner_text.sub("年", "-").sub("月", "-").sub("日", "")
+      n.title = x.element_children[1].element_children[0].inner_text
+      n.source = x.element_children[1].element_children[0]["href"]
+      n.from = districtid
+      attempt_save n
     end
   end
 
@@ -348,8 +374,8 @@ class RenderController < ApplicationController
     end
   end
 
-  def curl_get(from)
-    res = Curl.get(DISTRICTS[from][1]) {|http|
+  def curl_get(url, from)
+    res = Curl.get(url) {|http|
       http.timeout = 10 # raise exception if request/response not handled within 10 seconds
     }
     if res.code == 200
@@ -374,7 +400,7 @@ class RenderController < ApplicationController
     return nil
   end
 
-  def phantom_get(from)
+  def phantom_get(url, from)
     filename = "/tmp/SCRIPT.js"
     jscode =
     "
@@ -429,7 +455,7 @@ class RenderController < ApplicationController
     		this.webpage	= require('webpage');
     		this.system		= require('system');
     		this.page		= this.webpage.create();
-    		this.url		= '#{DISTRICTS[from][1]}';
+    		this.url		= '#{url}';
     		this.userAgent	= 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0';
     		this.timeout	= 6000;
     	},
