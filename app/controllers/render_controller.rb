@@ -64,6 +64,27 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_hkn(document, districtid)
+    document.css("thead > tr, tbody > tr").drop(1).each do |x|
+      n = Notice.new
+      n.extralinks = ""
+      n.from = districtid
+      n.title = x.element_children[0].element_children[0].inner_text
+      x.element_children[0].xpath('./text()').each do |str|
+        n.title += str
+      end
+      n.date = "2112-09-03"
+      n.source = x.element_children[0].element_children[0]["href"]
+      n.duedate = x.element_children[3].inner_text
+      n.extralinks += "活動日期: #{x.element_children[2].inner_text.gsub("\n", "")}\n#\n"
+      x.element_children[0].css("a").drop(1).each do |l|
+        n.extralinks += "#{l.inner_text.gsub("\n", "")}\n"
+        n.extralinks += "#{l["href"]}\n"
+      end
+      attempt_save n
+    end
+  end
+
   def hkw_urls
     arr = []
     arr.append "https://group.scout.org.hk/hkw/circular/circular#{Date.current.year}/"
@@ -381,6 +402,9 @@ class RenderController < ApplicationController
   end
 
   def attempt_save(n)
+    if n.duedate != nil && n.duedate < Date.current.last_year
+      return
+    end
     if n.date > 6.months.ago && Notice.where(source: n.source)[0] == nil
       n.save
     end

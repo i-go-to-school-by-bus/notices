@@ -2,7 +2,7 @@ DISTRICTS = [
 	# 0: name; 1: url; 2: updatefunc; 3: big5?; 4: phantomjs? 5:urlgeneratefunc
 	["總會", "", :dummy, false, false, nil],
 	["港島地域", "https://www.hkirscout.org.hk/tc/circular/Sections/index.html", :update_hkir, false, false, nil],
-	["港島北區", "", :dummy, false, false, nil],
+	["港島北區", "https://www.hknscout.org/training/", :update_hkn, false, false, nil],
 	["維多利亞城區", "", :dummy, false, false, nil],
 	["港島西區", nil, :update_hkw, false, false, :hkw_urls],
 	["灣仔區", "", :dummy, false, false, nil],
