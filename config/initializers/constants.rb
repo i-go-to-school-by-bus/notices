@@ -4,7 +4,7 @@ DISTRICTS = [
 	["港島地域", "https://www.hkirscout.org.hk/tc/circular/Sections/index.html", :update_hkir, false, false, nil],
 	["港島北區", "https://www.hknscout.org/training/", :update_hkn, false, false, nil],
 	["維多利亞城區", "https://sites.google.com/hkirscout.org.hk/vicscout/%E8%A8%93%E7%B7%B4-%E6%B4%BB%E5%8B%95%E8%B3%87%E8%A8%8A", :update_vic, false, false, nil],
-	["港島西區", nil, :update_hkw, false, false, :hkw_urls],
+	["港島西區", nil, :update_hkw, false, true, :hkw_urls],
 	["灣仔區", "", :dummy, false, false, nil],
 	["筲箕灣區", "https://www.skwscout.org.hk/category/notice/", :update_skw, false, false, nil],
 	["柴灣區", "https://chaiwanscout.org.hk/v3/", :update_cwd, false, false, nil],
