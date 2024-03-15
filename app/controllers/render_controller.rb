@@ -169,6 +169,28 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_hks(document, districtid)
+    document.css(".hJDwNd-AhqUyc-wNfPc.Ft7HRd-AhqUyc-wNfPc.purZT-AhqUyc-II5mzb.ZcASvf-AhqUyc-II5mzb.pSzOP-AhqUyc-wNfPc.Ktthjf-AhqUyc-wNfPc.JNdkSc.SQVYQc.yYI8W.HQwdzb").each do |x|
+      n = Notice.new
+      n.from = districtid
+      n.date = "2112-09-03"
+      n.title = x.inner_text
+      n.title = n.title.slice((n.title.index("活動名稱：") + 5)..(n.title.index("活動日期：") - 1))
+      n.source = x.css("a")[0]["href"]
+      ddstr = x.inner_text
+      ddstr = ddstr.slice((ddstr.index("截止日期：") + 5)..(ddstr.length))
+      ddstr = ddstr.slice(0..(ddstr.index("(") - 1))
+      ddstr = ddstr.sub(':', "").sub("年", "-").sub("月", "-").sub("日", "")
+      n.duedate = ddstr
+
+      n.extralinks = ""
+      elnode = x.css("a")
+      (1..(elnode.length - 1)).each do |el|
+        n.extralinks += "#{elnode[el].inner_text.gsub("/n", "").strip}\n#{elnode[el]["href"]}\n"
+      end
+      attempt_save n
+    end
+  end
   def update_kr(document, districtid)
   	document.css("tbody")[0].element_children.each do |x|
       n = Notice.new

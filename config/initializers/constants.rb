@@ -8,7 +8,7 @@ DISTRICTS = [
 	["灣仔區", "", :dummy, false, false, nil],
 	["筲箕灣區", "https://www.skwscout.org.hk/category/notice/", :update_skw, false, false, nil],
 	["柴灣區", "https://chaiwanscout.org.hk/v3/", :update_cwd, false, false, nil],
-	["港島南區", "", :dummy, false, false, nil],
+	["港島南區", "https://sites.google.com/hkirscout.org.hk/hks/%E6%B4%BB%E5%8B%95%E5%8F%8A%E8%A8%93%E7%B7%B4%E7%8F%AD", :update_hks, false, false, nil],
 	["九龍地域", "https://krscout.org/%e9%80%9a%e5%91%8a%e5%8f%8a%e8%a1%a8%e6%a0%bc/", :update_kr, false, false, nil],
 	["紅磡區", "", :dummy, false, false, nil],
 	["何文田區", "", :dummy, false, false, nil],
