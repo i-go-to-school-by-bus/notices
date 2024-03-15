@@ -28,7 +28,7 @@ DISTRICTS = [
 	["將軍澳區", "https://hkscout-tko.org/notice.php#top", :update_tko, false, false, nil],
 	["觀塘區", "", :dummy, false, false, nil],
 	["鯉魚門區", "", :dummy, false, false, nil],
-	["新界地域", "", :dummy, false, false, nil],
+	["新界地域", "Waow NTR?!?!!11!1", :update_ntr, false, false, :ntr_urls],
 	["元朗東區", "https://yle.scout-ntr.org.hk/allNotice.php", :update_yle, false, false, nil],
 	["元朗西區", "https://www.ylw-scout.org.hk/category/%E9%80%9A%E5%91%8A/", :update_ylw, false, false, nil],
 	["十八鄉區", "", :dummy, false, false, nil],

@@ -225,6 +225,30 @@ class RenderController < ApplicationController
     end
   end
 
+  def ntr_urls
+    arr = []
+    arr.append "https://www.scout-ntr.org.hk/mainweb/big5/circulars/youth.php?year=#{Date.current.year}"
+    arr.append "https://www.scout-ntr.org.hk/mainweb/big5/circulars/youth.php?year=#{Date.current.last_year.year}"
+    return arr
+  end
+
+  def update_ntr(document, districtid)
+    a = []
+	  document.css("div.contentArea tr").each do |k|
+	  	if k.css("td.table2Content").length > 0
+	  		a.append k
+	  	end
+	  end
+	  a.each do |x|
+      n = Notice.new
+	  	n.date = x.element_children[0].inner_text.sub("年", "-").sub("月", "-").sub("日", "")
+	  	n.title = x.element_children[1].css("a")[0].inner_text
+	  	n.source = x.element_children[1].css("a")[0]["href"]
+      n.from = districtid
+      attempt_save n
+	  end
+  end
+
   def update_yle(document, districtid)
     document.css("tr").drop(1).each do |x|
       n = Notice.new
