@@ -18,7 +18,7 @@ DISTRICTS = [
 	["深旺區", "https://group.scout.org.hk/smd/", :update_smd, false, true, nil],
 	["深水埗東區", "", :dummy, false, false, nil],
 	["深水埗西區", "", :dummy, false, false, nil],
-	["油尖區", "", :dummy, false, false, nil],
+	["油尖區", "www.krscout.hk/yautsim/index.htm", :update_ytd, true, false, nil],
 	["東九龍地域", "https://hkscout-ekr.org/", :update_ekr, false, false, nil],
 	["西貢區", "http://www.hkscout-skd.org", :update_skd, false, false, nil],
 	["慈雲山區", "", :dummy, false, false, nil],

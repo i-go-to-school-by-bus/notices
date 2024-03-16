@@ -259,6 +259,20 @@ class RenderController < ApplicationController
     end
   end
 
+  def update_ytd(document, districtid)
+    document.css("tbody")[4].css("a").each do |x|
+		  if x["href"] == "S01%20Scout%20Membership%20Badge%20Record.xls"
+		  	break
+		  end
+      n = Notice.new
+      n.from = districtid
+		  n.date = "2112-09-03"
+		  n.title = x.inner_text
+		  n.source = "http://www.krscout.hk/yautsim/#{x["href"]}"
+      attempt_save n
+    end
+  end
+
   def update_ekr(document, districtid)
     document.css(".w3eden").each do |x|
       x = x.css(".media")[0]
