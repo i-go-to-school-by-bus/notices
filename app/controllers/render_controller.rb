@@ -498,7 +498,7 @@ class RenderController < ApplicationController
     n = Notice.new
     n.title = message
     n.from = districtid
-    n.source = "https://piped.garudalinux.org/watch?v=J-jrqxT5kKE"
+    n.source = "https://piped.video/watch?v=J-jrqxT5kKE"
     n.date = "1970-1-1"
     n.duedate = "1970-1-1"
     if Notice.where(from: n.from)[0] == nil
